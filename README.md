@@ -42,13 +42,13 @@ const CONFIG = {
 
   // Endpoint de Formspree para recibir leads por email
   // Si lo dejas vacío el formulario redirige directo a WhatsApp
-  formspreeEndpoint: 'https://formspree.io/f/xabc1234',
+  formspreeEndpoint: 'xxxxxxxxxxxx',
 
   // Número WhatsApp con código de país, sin + ni espacios
-  whatsappNumber: '56912345678',
+  whatsappNumber: 'xxxxxxxxxxx',
 
   // Datos del footer
-  contactEmail: 'contacto@isapreinteligente.cl',
+  contactEmail: 'xxxxxxx@xxxxxxx.cl',
   contactPhone: '+56 9 XXXX XXXX',
   contactCity:  'Santiago, Chile',
 
