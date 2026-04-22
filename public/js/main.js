@@ -37,15 +37,13 @@
 
 // ── Counter animation ───────────────────────────────────────
 (function initCounters() {
-  const counters = document.querySelectorAll('[data-count]');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-      const el = entry.target;
+      const el     = entry.target;
       const target = parseInt(el.dataset.count, 10);
-      const duration = 1600;
-      const step = Math.ceil(target / (duration / 16));
-      let current = 0;
+      const step   = Math.ceil(target / (1600 / 16));
+      let current  = 0;
       const tick = () => {
         current = Math.min(current + step, target);
         el.textContent = current.toLocaleString('es-CL');
@@ -55,28 +53,49 @@
       observer.unobserve(el);
     });
   }, { threshold: 0.5 });
-  counters.forEach(c => observer.observe(c));
+  document.querySelectorAll('[data-count]').forEach(c => observer.observe(c));
 })();
 
 // ── FAQ accordion ───────────────────────────────────────────
 (function initFAQ() {
   document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
-      const item   = btn.closest('.faq-item');
-      const answer = item.querySelector('.faq-answer');
       const isOpen = btn.classList.contains('active');
-
       document.querySelectorAll('.faq-question.active').forEach(b => {
         b.classList.remove('active');
         b.closest('.faq-item').querySelector('.faq-answer').classList.remove('open');
       });
-
       if (!isOpen) {
         btn.classList.add('active');
-        answer.classList.add('open');
+        btn.closest('.faq-item').querySelector('.faq-answer').classList.add('open');
       }
     });
   });
+})();
+
+// ── WhatsApp links ──────────────────────────────────────────
+(function initWhatsApp() {
+  const number = CONFIG.whatsappNumber || '56900000000';
+  const msg    = encodeURIComponent('Hola, quiero cotizar mi plan de Isapre');
+  const url    = `https://wa.me/${number}?text=${msg}`;
+  ['whatsappHero','whatsappCTA','whatsappFooter','whatsappSuccess','whatsappFab'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.href = url; el.target = '_blank'; el.rel = 'noopener noreferrer'; }
+  });
+})();
+
+// ── Redes sociales ──────────────────────────────────────────
+(function initSocial() {
+  const fbEl = document.getElementById('socialFacebook');
+  const igEl = document.getElementById('socialInstagram');
+  if (fbEl) {
+    if (CONFIG.socialFacebook) fbEl.href = CONFIG.socialFacebook;
+    else fbEl.style.display = 'none';
+  }
+  if (igEl) {
+    if (CONFIG.socialInstagram) igEl.href = CONFIG.socialInstagram;
+    else igEl.style.display = 'none';
+  }
 })();
 
 // ── Toast notifications ─────────────────────────────────────
@@ -96,45 +115,21 @@ function showToast(message, isError = false) {
     toast.style.opacity = '0';
     toast.style.transform = 'translateX(120%)';
     setTimeout(() => toast.remove(), 450);
-  }, 4000);
+  }, 4500);
 }
-
-// ── WhatsApp links (cargados desde /api/whatsapp) ───────────
-async function initWhatsApp() {
-  let waUrl = `https://wa.me/56912345678?text=Hola,%20quiero%20cotizar%20mi%20plan%20de%20Isapre`;
-  try {
-    const res = await fetch('/api/whatsapp');
-    if (res.ok) {
-      const data = await res.json();
-      if (data.url) waUrl = data.url;
-    }
-  } catch (_) {}
-
-  const ids = ['whatsappHero', 'whatsappCTA', 'whatsappFooter', 'whatsappSuccess', 'whatsappFab'];
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.href = waUrl;
-      el.target = '_blank';
-      el.rel = 'noopener noreferrer';
-    }
-  });
-}
-initWhatsApp();
 
 // ── Formulario ──────────────────────────────────────────────
 (function initForm() {
   const form      = document.getElementById('leadForm');
   const submitBtn = document.getElementById('submitBtn');
   const successEl = document.getElementById('formSuccess');
-
   if (!form) return;
 
   function setError(fieldId, msg) {
     const input = document.getElementById(fieldId);
     const errEl = document.getElementById(`error-${fieldId}`);
-    if (input)  input.classList.toggle('error', !!msg);
-    if (errEl)  errEl.textContent = msg || '';
+    if (input) input.classList.toggle('error', !!msg);
+    if (errEl) errEl.textContent = msg || '';
   }
 
   function clearErrors() {
@@ -142,50 +137,66 @@ initWhatsApp();
     document.querySelectorAll('.error').forEach(e => e.classList.remove('error'));
   }
 
-  function validate(data) {
-    let valid = true;
-
-    if (!data.nombre || data.nombre.trim().length < 2) {
-      setError('nombre', 'Ingresa tu nombre completo'); valid = false;
-    }
-    if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-      setError('email', 'Correo electrónico inválido'); valid = false;
-    }
-    if (!data.telefono || data.telefono.trim().length < 7) {
-      setError('telefono', 'Teléfono inválido'); valid = false;
-    }
-    if (!data.edad || isNaN(data.edad) || data.edad < 18 || data.edad > 100) {
-      setError('edad', 'Edad debe ser entre 18 y 100'); valid = false;
-    }
-    if (!data.isapre) {
-      setError('isapre', 'Selecciona tu isapre actual'); valid = false;
-    }
-    if (!data.sueldo) {
-      setError('sueldo', 'Selecciona un rango de sueldo'); valid = false;
-    }
-    if (!data.cargas && data.cargas !== '0') {
-      setError('cargas', 'Indica cuántas cargas tienes'); valid = false;
-    }
-    if (!data.region) {
-      setError('region', 'Selecciona tu región'); valid = false;
-    }
-
-    return valid;
+  function validate(d) {
+    let ok = true;
+    if (!d.nombre || d.nombre.trim().length < 2)
+      { setError('nombre',   'Ingresa tu nombre completo'); ok = false; }
+    if (!d.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email))
+      { setError('email',    'Correo electrónico inválido'); ok = false; }
+    if (!d.telefono || d.telefono.trim().length < 7)
+      { setError('telefono', 'Teléfono inválido'); ok = false; }
+    if (!d.edad || isNaN(d.edad) || d.edad < 18 || d.edad > 100)
+      { setError('edad',     'Edad debe ser entre 18 y 100'); ok = false; }
+    if (!d.isapre)
+      { setError('isapre',   'Selecciona tu isapre actual'); ok = false; }
+    if (!d.sueldo)
+      { setError('sueldo',   'Selecciona un rango de sueldo'); ok = false; }
+    if (!d.cargas && d.cargas !== '0')
+      { setError('cargas',   'Indica cuántas cargas tienes'); ok = false; }
+    if (!d.region)
+      { setError('region',   'Selecciona tu región'); ok = false; }
+    return ok;
   }
 
   function setLoading(loading) {
-    const btnText    = submitBtn.querySelector('.btn-text');
-    const btnLoading = submitBtn.querySelector('.btn-loading');
     submitBtn.disabled = loading;
-    btnText.style.display    = loading ? 'none' : 'flex';
-    btnLoading.style.display = loading ? 'flex' : 'none';
+    submitBtn.querySelector('.btn-text').style.display    = loading ? 'none' : 'flex';
+    submitBtn.querySelector('.btn-loading').style.display = loading ? 'flex' : 'none';
+  }
+
+  // Construye un mensaje WhatsApp con todos los datos del formulario
+  function buildWhatsAppUrl(d) {
+    const number = CONFIG.whatsappNumber || '56900000000';
+    const lines = [
+      '🏥 *Nueva cotización — Isapre Inteligente*',
+      '',
+      `👤 *Nombre:* ${d.nombre}`,
+      `📧 *Email:* ${d.email}`,
+      `📱 *Teléfono:* ${d.telefono}`,
+      `🎂 *Edad:* ${d.edad} años`,
+      `🏥 *Isapre actual:* ${d.isapre}`,
+      `💰 *Sueldo:* ${d.sueldo}`,
+      `👨‍👩‍👧 *Cargas:* ${d.cargas === '0' ? 'Sin cargas' : d.cargas}`,
+      `📍 *Región:* ${d.region}`,
+      d.mensaje ? `💬 *Mensaje:* ${d.mensaje}` : '',
+    ].filter(Boolean).join('\n');
+    return `https://wa.me/${number}?text=${encodeURIComponent(lines)}`;
+  }
+
+  async function submitViaFormspree(data) {
+    const res = await fetch(CONFIG.formspreeEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return res.ok;
   }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     clearErrors();
 
-    const data = {
+    const d = {
       nombre:   form.nombre.value.trim(),
       email:    form.email.value.trim(),
       telefono: form.telefono.value.trim(),
@@ -197,37 +208,40 @@ initWhatsApp();
       mensaje:  form.mensaje.value.trim(),
     };
 
-    if (!validate(data)) {
-      const firstError = form.querySelector('.error');
-      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (!validate(d)) {
+      form.querySelector('.error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
     setLoading(true);
 
-    try {
-      const res = await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      const json = await res.json();
-
-      if (res.ok && json.success) {
-        form.style.display = 'none';
-        successEl.style.display = 'block';
-        showToast('¡Cotización enviada correctamente!');
-      } else {
-        showToast(json.message || 'Ocurrió un error. Intenta de nuevo.', true);
+    // Si hay endpoint Formspree configurado, enviar ahí
+    if (CONFIG.formspreeEndpoint) {
+      try {
+        const ok = await submitViaFormspree(d);
+        if (!ok) throw new Error('Formspree error');
+      } catch (_) {
+        showToast('Error al enviar. Intenta contactarnos por WhatsApp.', true);
         setLoading(false);
+        return;
       }
-    } catch (err) {
-      showToast('Error de conexión. Verifica tu internet.', true);
-      setLoading(false);
+    }
+
+    // Mostrar pantalla de éxito
+    form.style.display = 'none';
+    successEl.style.display = 'block';
+    showToast('¡Cotización enviada correctamente!');
+
+    // Actualizar enlace WhatsApp del éxito con los datos del formulario
+    const waSuccess = document.getElementById('whatsappSuccess');
+    if (waSuccess) {
+      waSuccess.href = buildWhatsAppUrl(d);
+      waSuccess.target = '_blank';
+      waSuccess.rel = 'noopener noreferrer';
     }
   });
 
-  // Clear error on input
+  // Limpiar error al escribir
   form.querySelectorAll('input, select, textarea').forEach(el => {
     el.addEventListener('input', () => {
       el.classList.remove('error');
@@ -245,8 +259,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     const target = document.querySelector(href);
     if (!target) return;
     e.preventDefault();
-    const offset = 80;
-    const top = target.getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({ top, behavior: 'smooth' });
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
   });
 });
