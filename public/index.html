@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Isapre Inteligente — Comparamos coberturas y precios en todas las isapres para encontrar tu plan ideal. Cotización gratuita y sin compromiso." />
+  <meta property="og:title" content="Isapre Inteligente — Tu plan de salud ideal" />
+  <meta property="og:description" content="Encuentra el mejor plan de Isapre para ti y tu familia. Gratis, rápido y sin compromiso." />
+  <meta property="og:type" content="website" />
+  <title>Isapre Inteligente — Tu plan de salud ideal</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#inicio" class="nav-logo">
+        <span class="logo-icon"><i class="fa-solid fa-shield-heart"></i></span>
+        <span class="logo-text">Isapre <strong>Inteligente</strong></span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#como-funciona">¿Cómo funciona?</a>
+        <a href="#beneficios">Beneficios</a>
+        <a href="#isapres">Isapres</a>
+        <a href="#faq">FAQ</a>
+        <a href="#cotizar" class="btn-nav">Cotizar gratis</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════════════ -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg">
+      <div class="hero-blob hero-blob-1"></div>
+      <div class="hero-blob hero-blob-2"></div>
+    </div>
+    <div class="hero-container">
+      <div class="hero-content" data-aos="fade-right">
+        <span class="hero-badge">
+          <i class="fa-solid fa-circle-check"></i> 100% Gratis &amp; Sin Compromiso
+        </span>
+        <h1 class="hero-title">
+          Descubre tu<br />
+          <span class="gradient-text">Plan de Isapre</span><br />
+          Ideal
+        </h1>
+        <p class="hero-subtitle">
+          Comparamos coberturas y precios en <strong>todas las isapres</strong> para que elijas el mejor plan para ti y tu familia.
+        </p>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-number" data-count="3500">0</span>
+            <span class="stat-label">Familias asesoradas</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-number" data-count="98">0</span><span class="stat-suffix">%</span>
+            <span class="stat-label">Satisfacción</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-number" data-count="10">0</span>
+            <span class="stat-label">Isapres comparadas</span>
+          </div>
+        </div>
+        <a href="#cotizar" class="btn-hero">
+          <i class="fa-solid fa-magnifying-glass-dollar"></i>
+          Cotizar mi plan ahora
+        </a>
+        <a href="#" class="btn-whatsapp" id="whatsappHero">
+          <i class="fa-brands fa-whatsapp"></i>
+          Hablar por WhatsApp
+        </a>
+      </div>
+
+      <!-- FORMULARIO PRINCIPAL -->
+      <div class="hero-form-wrapper" id="cotizar" data-aos="fade-left">
+        <div class="form-card">
+          <div class="form-card-header">
+            <i class="fa-solid fa-clipboard-list"></i>
+            <h2>Cotiza tu plan gratis</h2>
+            <p>Completa el formulario y recibe tu cotización personalizada</p>
+          </div>
+          <form class="lead-form" id="leadForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nombre"><i class="fa-solid fa-user"></i> Nombre completo</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: María González" autocomplete="name" required />
+                <span class="error-msg" id="error-nombre"></span>
+              </div>
+              <div class="form-group">
+                <label for="email"><i class="fa-solid fa-envelope"></i> Correo electrónico</label>
+                <input type="email" id="email" name="email" placeholder="tu@correo.cl" autocomplete="email" required />
+                <span class="error-msg" id="error-email"></span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="telefono"><i class="fa-solid fa-phone"></i> Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="+56 9 XXXX XXXX" autocomplete="tel" required />
+                <span class="error-msg" id="error-telefono"></span>
+              </div>
+              <div class="form-group">
+                <label for="edad"><i class="fa-solid fa-calendar"></i> Edad</label>
+                <input type="number" id="edad" name="edad" placeholder="Ej: 35" min="18" max="100" required />
+                <span class="error-msg" id="error-edad"></span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="isapre"><i class="fa-solid fa-building-shield"></i> Isapre actual</label>
+                <select id="isapre" name="isapre" required>
+                  <option value="">Selecciona tu isapre</option>
+                  <option value="Fonasa">Fonasa</option>
+                  <option value="Banmédica">Banmédica</option>
+                  <option value="Colmena">Colmena Golden Cross</option>
+                  <option value="Cruz Blanca">Cruz Blanca</option>
+                  <option value="Esencial">Esencial</option>
+                  <option value="Vida Tres">Vida Tres</option>
+                  <option value="Masvida">Masvida</option>
+                  <option value="Nueva Masvida">Nueva Masvida</option>
+                  <option value="Consalud">Consalud</option>
+                  <option value="Otra">Otra</option>
+                </select>
+                <span class="error-msg" id="error-isapre"></span>
+              </div>
+              <div class="form-group">
+                <label for="sueldo"><i class="fa-solid fa-money-bill-wave"></i> Rango de sueldo</label>
+                <select id="sueldo" name="sueldo" required>
+                  <option value="">Selecciona un rango</option>
+                  <option value="$600.000 - $900.000">$600.000 — $900.000</option>
+                  <option value="$900.001 - $1.300.000">$900.001 — $1.300.000</option>
+                  <option value="$1.300.001 - $2.500.000">$1.300.001 — $2.500.000</option>
+                  <option value="$2.500.000 o más">$2.500.000 o más</option>
+                </select>
+                <span class="error-msg" id="error-sueldo"></span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cargas"><i class="fa-solid fa-people-group"></i> Cargas familiares</label>
+                <select id="cargas" name="cargas" required>
+                  <option value="">¿Cuántas cargas tienes?</option>
+                  <option value="0">Sin cargas</option>
+                  <option value="1">1 carga</option>
+                  <option value="2">2 cargas</option>
+                  <option value="3">3 cargas</option>
+                  <option value="4">4 cargas</option>
+                  <option value="5+">5 o más cargas</option>
+                </select>
+                <span class="error-msg" id="error-cargas"></span>
+              </div>
+              <div class="form-group">
+                <label for="region"><i class="fa-solid fa-map-location-dot"></i> Región</label>
+                <select id="region" name="region" required>
+                  <option value="">Selecciona tu región</option>
+                  <option value="Arica y Parinacota">Arica y Parinacota</option>
+                  <option value="Tarapacá">Tarapacá</option>
+                  <option value="Antofagasta">Antofagasta</option>
+                  <option value="Atacama">Atacama</option>
+                  <option value="Coquimbo">Coquimbo</option>
+                  <option value="Valparaíso">Valparaíso</option>
+                  <option value="Metropolitana">Metropolitana de Santiago</option>
+                  <option value="O'Higgins">O'Higgins</option>
+                  <option value="Maule">Maule</option>
+                  <option value="Ñuble">Ñuble</option>
+                  <option value="Biobío">Biobío</option>
+                  <option value="La Araucanía">La Araucanía</option>
+                  <option value="Los Ríos">Los Ríos</option>
+                  <option value="Los Lagos">Los Lagos</option>
+                  <option value="Aysén">Aysén</option>
+                  <option value="Magallanes">Magallanes</option>
+                </select>
+                <span class="error-msg" id="error-region"></span>
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label for="mensaje"><i class="fa-solid fa-comment"></i> Mensaje adicional <span class="optional">(opcional)</span></label>
+              <textarea id="mensaje" name="mensaje" placeholder="¿Tienes alguna condición preexistente o necesidad especial de salud?" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn-submit" id="submitBtn">
+              <span class="btn-text"><i class="fa-solid fa-paper-plane"></i> Cotizar ahora — ¡Es gratis!</span>
+              <span class="btn-loading" style="display:none"><i class="fa-solid fa-spinner fa-spin"></i> Enviando...</span>
+            </button>
+            <p class="form-disclaimer">
+              <i class="fa-solid fa-lock"></i>
+              Tus datos están protegidos. No compartimos tu información con terceros.
+            </p>
+          </form>
+          <div class="form-success" id="formSuccess" style="display:none">
+            <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <h3>¡Cotización enviada!</h3>
+            <p>Un ejecutivo especializado te contactará en las próximas <strong>24 horas</strong>.</p>
+            <a href="#" class="btn-whatsapp-success" id="whatsappSuccess">
+              <i class="fa-brands fa-whatsapp"></i> Contactar por WhatsApp ahora
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       CÓMO FUNCIONA
+  ══════════════════════════════════════════════════════ -->
+  <section class="how-it-works" id="como-funciona">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Simple y rápido</span>
+        <h2 class="section-title">¿Cómo funciona?</h2>
+        <p class="section-subtitle">En tres pasos encontramos el plan ideal para ti</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="step-number">01</div>
+          <div class="step-icon"><i class="fa-solid fa-file-pen"></i></div>
+          <h3>Completa el formulario</h3>
+          <p>Ingresa tus datos personales, sueldo y necesidades de salud. Solo toma 2 minutos.</p>
+        </div>
+        <div class="step-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+        <div class="step-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="step-number">02</div>
+          <div class="step-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+          <h3>Analizamos tu perfil</h3>
+          <p>Nuestros expertos comparan coberturas y precios en todas las isapres disponibles.</p>
+        </div>
+        <div class="step-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+        <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="step-number">03</div>
+          <div class="step-icon"><i class="fa-solid fa-handshake"></i></div>
+          <h3>Recibe tu propuesta</h3>
+          <p>Te contactamos con la mejor opción personalizada para ti. Sin letra chica ni compromiso.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       BENEFICIOS
+  ══════════════════════════════════════════════════════ -->
+  <section class="benefits" id="beneficios">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">¿Por qué elegirnos?</span>
+        <h2 class="section-title">Todo lo que necesitas para decidir</h2>
+        <p class="section-subtitle">Tu salud merece el mejor análisis, sin costo</p>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="benefit-icon benefit-icon-blue">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h3>Comparativa completa</h3>
+          <p>Analizamos más de 10 isapres con cientos de planes para que no te pierdas ninguna opción.</p>
+        </div>
+        <div class="benefit-card" data-aos="fade-up" data-aos-delay="80">
+          <div class="benefit-icon benefit-icon-teal">
+            <i class="fa-solid fa-user-tie"></i>
+          </div>
+          <h3>Asesor personalizado</h3>
+          <p>Un ejecutivo especializado te acompañará durante todo el proceso de cambio de isapre.</p>
+        </div>
+        <div class="benefit-card" data-aos="fade-up" data-aos-delay="160">
+          <div class="benefit-icon benefit-icon-green">
+            <i class="fa-solid fa-tag"></i>
+          </div>
+          <h3>Totalmente gratuito</h3>
+          <p>Nuestro servicio de cotización y asesoría no tiene ningún costo para ti. Sin compromisos.</p>
+        </div>
+        <div class="benefit-card" data-aos="fade-up" data-aos-delay="240">
+          <div class="benefit-icon benefit-icon-purple">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <h3>Datos protegidos</h3>
+          <p>Tu información personal está segura. No la compartimos ni la vendemos a terceros.</p>
+        </div>
+        <div class="benefit-card" data-aos="fade-up" data-aos-delay="320">
+          <div class="benefit-icon benefit-icon-orange">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <h3>Respuesta en 24 hrs</h3>
+          <p>Recibirás tu cotización personalizada en menos de 24 horas hábiles.</p>
+        </div>
+        <div class="benefit-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="benefit-icon benefit-icon-red">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+          <h3>Cobertura familiar</h3>
+          <p>Encontramos planes que cubren toda tu familia con las mejores condiciones del mercado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       ISAPRES
+  ══════════════════════════════════════════════════════ -->
+  <section class="isapres" id="isapres">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Cobertura total</span>
+        <h2 class="section-title">Comparamos todas las isapres</h2>
+        <p class="section-subtitle">Accedemos a todos los planes disponibles en el mercado</p>
+      </div>
+      <div class="isapres-logos" data-aos="fade-up" data-aos-delay="100">
+        <div class="isapre-logo-card">
+          <div class="isapre-logo-placeholder">
+            <i class="fa-solid fa-hospital"></i>
+            <span>Banmédica</span>
+          </div>
+        </div>
+        <div class="isapre-logo-card">
+          <div class="isapre-logo-placeholder">
+            <i class="fa-solid fa-hospital"></i>
+            <span>Colmena</span>
+          </div>
+        </div>
+        <div class="isapre-logo-card">
+          <div class="isapre-logo-placeholder">
+            <i class="fa-solid fa-hospital"></i>
+            <span>Cruz Blanca</span>
+          </div>
+        </div>
+        <div class="isapre-logo-card">
+          <div class="isapre-logo-placeholder">
+            <i class="fa-solid fa-hospital"></i>
+            <span>Consalud</span>
+          </div>
+        </div>
+        <div class="isapre-logo-card">
+          <div class="isapre-logo-placeholder">
+            <i class="fa-solid fa-hospital"></i>
+            <span>Esencial</span>
+          </div>
+        </div>
+        <div class="isapre-logo-card">
+          <div class="isapre-logo-placeholder">
+            <i class="fa-solid fa-hospital"></i>
+            <span>Vida Tres</span>
+          </div>
+        </div>
+        <div class="isapre-logo-card">
+          <div class="isapre-logo-placeholder">
+            <i class="fa-solid fa-hospital"></i>
+            <span>Masvida</span>
+          </div>
+        </div>
+        <div class="isapre-logo-card">
+          <div class="isapre-logo-placeholder">
+            <i class="fa-solid fa-hospital"></i>
+            <span>Fonasa</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       CTA WHATSAPP
+  ══════════════════════════════════════════════════════ -->
+  <section class="cta-banner" data-aos="fade-up">
+    <div class="container">
+      <div class="cta-banner-inner">
+        <div class="cta-banner-content">
+          <h2>¿Prefieres hablar con un ejecutivo ahora?</h2>
+          <p>Contáctanos por WhatsApp y recibe atención personalizada en minutos.</p>
+        </div>
+        <a href="#" class="btn-whatsapp-banner" id="whatsappCTA">
+          <i class="fa-brands fa-whatsapp"></i>
+          ¡Quiero cotizar por WhatsApp!
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       TESTIMONIOS
+  ══════════════════════════════════════════════════════ -->
+  <section class="testimonials" data-aos="fade-up">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Experiencias reales</span>
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p>"Cambié de Fonasa a Banmédica con un plan que se ajustaba perfectamente a mi sueldo. El ejecutivo me explicó todo en detalle y sin presiones."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">MG</div>
+            <div>
+              <strong>María González</strong>
+              <span>Santiago, RM</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p>"Tenía dudas sobre cómo cubrir a mi familia. En 24 horas recibí tres opciones comparadas. Ahorramos $45.000 al mes con mejor cobertura."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">RP</div>
+            <div>
+              <strong>Roberto Pérez</strong>
+              <span>Valparaíso</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+          <p>"Jamás pensé que cambiar de isapre fuera tan fácil. El proceso fue 100% online y me guiaron paso a paso. Muy recomendable."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">CA</div>
+            <div>
+              <strong>Claudia Araya</strong>
+              <span>Concepción</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       FAQ
+  ══════════════════════════════════════════════════════ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Preguntas frecuentes</span>
+        <h2 class="section-title">Resolvemos tus dudas</h2>
+      </div>
+      <div class="faq-list" data-aos="fade-up" data-aos-delay="100">
+        <div class="faq-item">
+          <button class="faq-question">
+            ¿El servicio tiene algún costo?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>No, nuestro servicio es completamente gratuito para el cotizante. Nos financiamos a través de las isapres cuando efectivamente realizas un cambio de plan.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            ¿En cuánto tiempo recibo mi cotización?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Un ejecutivo te contactará en un plazo máximo de 24 horas hábiles desde que envíes el formulario. Generalmente el contacto es mucho más rápido.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            ¿Mis datos personales están seguros?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Absolutamente. Tus datos están protegidos bajo la Ley 19.628 de Protección de Datos Personales. No los compartimos, no los vendemos y solo los usamos para brindarte la asesoría.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            ¿Estoy obligado a cambiar de isapre si cotizo?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>No existe ningún compromiso. La cotización es informativa y la decisión final siempre es tuya. Nuestro objetivo es que tomes la mejor decisión con la información completa.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            ¿Puedo cotizar si tengo condiciones preexistentes?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Sí, puedes cotizar igual. Hay planes y isapres que aceptan condiciones preexistentes bajo ciertos períodos de carencia. Te explicaremos todas las opciones disponibles para tu caso.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            ¿Cuáles son los requisitos para cambiar de isapre?
+            <i class="fa-solid fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <p>En general, necesitas ser trabajador dependiente con cotizaciones al día o independiente con declaración de renta. Tu ejecutivo te informará los requisitos específicos según tu situación.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <i class="fa-solid fa-shield-heart"></i>
+            <span>Isapre <strong>Inteligente</strong></span>
+          </div>
+          <p>Comparamos todas las isapres para que encuentres el plan de salud ideal para ti y tu familia.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" id="whatsappFooter" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Sitio</h4>
+          <ul>
+            <li><a href="#como-funciona">¿Cómo funciona?</a></li>
+            <li><a href="#beneficios">Beneficios</a></li>
+            <li><a href="#isapres">Isapres</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Política de privacidad</a></li>
+            <li><a href="#">Términos de uso</a></li>
+            <li><a href="#">Protección de datos</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contacto</h4>
+          <ul>
+            <li><i class="fa-solid fa-envelope"></i> contacto@isapreinteligente.cl</li>
+            <li><i class="fa-solid fa-phone"></i> +56 9 XXXX XXXX</li>
+            <li><i class="fa-solid fa-location-dot"></i> Santiago, Chile</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Isapre Inteligente. Todos los derechos reservados.</p>
+        <p>Hecho con <i class="fa-solid fa-heart" style="color:#ef4444"></i> en Chile</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp flotante -->
+  <a href="#" class="fab-whatsapp" id="whatsappFab" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
