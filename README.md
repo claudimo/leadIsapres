@@ -1,6 +1,6 @@
-# 🏥 Isapre Inteligente
+# Isapre Inteligente
 
-> Landing page estática de captación de leads. Solo HTML + CSS + JS. Sin backend, sin build, sin dependencias.
+Landing page de captación de leads para comparación de isapres en Chile.
 
 ---
 
@@ -8,29 +8,27 @@
 
 ```
 leadIsapres/
-└── public/
-    ├── index.html          ← Página completa
-    ├── css/
-    │   └── style.css       ← Todos los estilos
-    └── js/
-        ├── config.js       ← ⚙️  Configuración (editar aquí)
-        └── main.js         ← Lógica del sitio
+├── public/
+│   ├── index.html          ← Página completa
+│   ├── css/
+│   │   └── style.css       ← Todos los estilos
+│   ├── images/
+│   │   └── logo.png        ← Logotipo
+│   └── js/
+│       ├── config.js       ← ⚙️  Configuración (editar aquí)
+│       └── main.js         ← Lógica del sitio
+├── server.js               ← Servidor de desarrollo
+├── package.json
+└── README.md
 ```
 
 ---
 
-## Uso
-
-Abre `public/index.html` directamente en el navegador, o sírvelo con cualquier servidor estático:
+## Inicio rápido
 
 ```bash
-# Con VS Code: instala "Live Server" y haz clic derecho → Open with Live Server
-
-# Con Python
-python -m http.server 3000 --directory public
-
-# Con Node (npx, sin instalar nada)
-npx serve public
+npm start
+# → http://localhost:3000
 ```
 
 ---
@@ -43,11 +41,10 @@ Edita **`public/js/config.js`** — es el único archivo que necesitas tocar:
 const CONFIG = {
 
   // Endpoint de Formspree para recibir leads por email
-  // Regístrate gratis en https://formspree.io, crea un formulario y pega el endpoint
-  // Si lo dejas vacío, el botón de éxito redirige directo a WhatsApp
-  formspreeEndpoint: '',   // 'https://formspree.io/f/xabc1234'
+  // Si lo dejas vacío el formulario redirige directo a WhatsApp
+  formspreeEndpoint: 'https://formspree.io/f/xabc1234',
 
-  // Número WhatsApp con código de país (sin + ni espacios)
+  // Número WhatsApp con código de país, sin + ni espacios
   whatsappNumber: '56912345678',
 
   // Datos del footer
@@ -55,9 +52,10 @@ const CONFIG = {
   contactPhone: '+56 9 XXXX XXXX',
   contactCity:  'Santiago, Chile',
 
-  // Redes sociales (deja vacío para ocultar)
-  socialFacebook:  '',     // 'https://facebook.com/tuPagina'
-  socialInstagram: '',     // 'https://instagram.com/tuPerfil'
+  // Redes sociales — dejar vacío para ocultar el ícono
+  socialFacebook:  '',
+  socialInstagram: '',
+
 };
 ```
 
@@ -73,12 +71,12 @@ Usuario llena el formulario
    │                      │
   SÍ                      NO
    │                      │
-Envía datos              Salta directo
-a Formspree      ────►   a pantalla de éxito
+Envía datos           Salta directo
+a Formspree    ────►  a pantalla de éxito
    │
    ▼
 Pantalla de éxito
-+ botón WhatsApp con todos los datos pre-cargados en el mensaje
++ botón WhatsApp con todos los datos pre-cargados
 ```
 
 ---
@@ -100,17 +98,6 @@ Pantalla de éxito
 
 ---
 
-## Despliegue gratuito
-
-| Plataforma | Comando / Acción |
-|---|---|
-| **GitHub Pages** | Sube `public/` como rama `gh-pages` |
-| **Netlify** | Arrastra la carpeta `public/` a netlify.com/drop |
-| **Vercel** | `npx vercel public/` |
-| **Cloudflare Pages** | Conecta el repo, directorio raíz: `public` |
-
----
-
 ## Stack
 
 | Capa | Tecnología |
@@ -118,10 +105,24 @@ Pantalla de éxito
 | Estructura | HTML5 semántico |
 | Estilos | CSS3 puro (variables, grid, flexbox, animaciones) |
 | Lógica | Vanilla JS (ES2020+, sin librerías) |
-| Animaciones | AOS inline (sin dependencia externa) |
+| Animaciones | Intersection Observer API |
 | Íconos | Font Awesome 6 (CDN) |
 | Fuentes | Inter — Google Fonts (CDN) |
 | Formulario | Formspree (opcional) + WhatsApp fallback |
+| Servidor dev | Node.js built-in `http` (sin dependencias) |
+
+---
+
+## Despliegue
+
+Publica la carpeta `public/` en cualquier hosting estático:
+
+| Plataforma | Acción |
+|---|---|
+| **GitHub Pages** | Publica `public/` como rama `gh-pages` |
+| **Netlify** | Arrastra `public/` a netlify.com/drop |
+| **Vercel** | `npx vercel public/` |
+| **Cloudflare Pages** | Directorio raíz: `public` |
 
 ---
 

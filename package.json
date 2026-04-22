@@ -1,0 +1,11 @@
+{
+  "name": "isapre-inteligente",
+  "version": "1.0.0",
+  "description": "Landing page Isapre Inteligente",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
