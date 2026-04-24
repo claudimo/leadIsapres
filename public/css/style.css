@@ -196,9 +196,13 @@ img { max-width: 100%; display: block; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
-  align-items: center;
+  align-items: start;
   position: relative;
   z-index: 1;
+}
+
+.hero-content {
+  padding-top: 24px;
 }
 
 .hero-badge {
@@ -288,19 +292,19 @@ img { max-width: 100%; display: block; }
 }
 .form-card-header {
   background: linear-gradient(135deg, var(--blue-dark), var(--blue));
-  padding: 28px 32px 24px;
+  padding: 18px 28px 14px;
   color: var(--white);
   text-align: center;
   border-bottom: 3px solid rgba(255,255,255,.15);
 }
-.form-card-header i    { font-size: 2rem; color: rgba(255,255,255,.9); margin-bottom: 8px; }
-.form-card-header h2   { font-size: 1.4rem; font-weight: 800; letter-spacing: -.5px; margin-bottom: 4px; }
-.form-card-header p    { color: rgba(255,255,255,.8); font-size: .9rem; }
+.form-card-header i    { font-size: 1.5rem; color: rgba(255,255,255,.9); margin-bottom: 6px; }
+.form-card-header h2   { font-size: 1.2rem; font-weight: 800; letter-spacing: -.5px; margin-bottom: 2px; }
+.form-card-header p    { color: rgba(255,255,255,.8); font-size: .82rem; }
 
-.lead-form { padding: 24px 28px 28px; }
-.form-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-.form-group { display: flex; flex-direction: column; gap: 6px; }
-.form-group.full-width { margin-bottom: 14px; }
+.lead-form { padding: 16px 22px 20px; }
+.form-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-group.full-width { margin-bottom: 10px; }
 .form-group label {
   font-size: .82rem;
   font-weight: 600;
@@ -315,10 +319,10 @@ img { max-width: 100%; display: block; }
 .form-group input,
 .form-group select,
 .form-group textarea {
-  padding: 10px 14px;
+  padding: 8px 12px;
   border: 1.5px solid var(--border);
   border-radius: 8px;
-  font-size: .9rem;
+  font-size: .88rem;
   font-family: var(--font);
   color: var(--text);
   background: var(--white);
@@ -335,13 +339,13 @@ img { max-width: 100%; display: block; }
 .form-group input.error,
 .form-group select.error,
 .form-group textarea.error { border-color: var(--red); }
-.form-group textarea { resize: vertical; min-height: 80px; }
+.form-group textarea { resize: vertical; min-height: 60px; }
 
 .error-msg { font-size: .78rem; color: var(--red); min-height: 16px; display: block; }
 
 .btn-submit {
   width: 100%;
-  padding: 14px;
+  padding: 12px;
   background: linear-gradient(135deg, var(--blue), var(--blue-dark));
   color: var(--white);
   font-size: 1rem;
@@ -850,8 +854,8 @@ section { padding: 90px 0; }
   .hero-title { font-size: 2.2rem; }
 
   .form-row          { grid-template-columns: 1fr; }
-  .lead-form         { padding: 20px; }
-  .form-card-header  { padding: 22px 20px 18px; }
+  .lead-form         { padding: 14px 16px; }
+  .form-card-header  { padding: 14px 18px 12px; }
 
   .steps-grid { flex-direction: column; align-items: stretch; }
   .step-card  { max-width: 100%; }
