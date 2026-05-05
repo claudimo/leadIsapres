@@ -5,11 +5,12 @@
 
 const CONFIG = {
 
-  // ── Formulario (Formspree) ────────────────────────────────
-  // 1. Regístrate gratis en https://formspree.io
-  // 2. Crea un formulario y copia el endpoint aquí
-  // 3. Si lo dejas vacío, el formulario redirige a WhatsApp
-  formspreeEndpoint: 'https://formspree.io/f/xgorpvlv',   // Ej: 'https://formspree.io/f/xabc1234'
+  // ── Supabase ──────────────────────────────────────────────
+  // 1. Crea un proyecto en https://supabase.com
+  // 2. Ve a Project Settings → API y copia los valores
+  // 3. Crea la tabla "leads" con el SQL del README
+  supabaseUrl: 'https://vvcmimpnfowhnainjvrc.supabase.co',   // Ej: 'https://xyzxyz.supabase.co'
+  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2Y21pbXBuZm93aG5haW5qdnJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5ODc0MDksImV4cCI6MjA5MzU2MzQwOX0.QNO4iBU62fsaA9OaEtkDCEz1nlIgtjqmWMeisUg-HXY',   // Clave anon/public (segura para el frontend)
 
   // ── WhatsApp ──────────────────────────────────────────────
   // Número con código de país, sin + ni espacios

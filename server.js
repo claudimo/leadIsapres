@@ -22,7 +22,9 @@ const MIME = {
 
 const server = http.createServer((req, res) => {
   let urlPath = req.url.split('?')[0];
-  if (urlPath === '/') urlPath = '/index.html';
+  if (!path.extname(urlPath)) {
+    urlPath = urlPath.replace(/\/$/, '') + '/index.html';
+  }
 
   const filePath    = path.join(PUBLIC_DIR, urlPath);
   const contentType = MIME[path.extname(filePath)] || 'application/octet-stream';

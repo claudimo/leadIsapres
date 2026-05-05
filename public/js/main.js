@@ -183,13 +183,24 @@ function showToast(message, isError = false) {
     return `https://wa.me/${number}?text=${encodeURIComponent(lines)}`;
   }
 
-  async function submitViaFormspree(data) {
-    const res = await fetch(CONFIG.formspreeEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    return res.ok;
+  // Inicializa cliente Supabase si está configurado
+  const sbClient = (CONFIG.supabaseUrl && CONFIG.supabaseAnonKey)
+    ? supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey)
+    : null;
+
+  async function submitViaSupabase(data) {
+    const { error } = await sbClient.from('leads').insert([{
+      nombre:   data.nombre,
+      email:    data.email,
+      telefono: data.telefono,
+      edad:     data.edad,
+      isapre:   data.isapre,
+      sueldo:   data.sueldo,
+      cargas:   data.cargas,
+      region:   data.region,
+      mensaje:  data.mensaje || null,
+    }]);
+    if (error) throw error;
   }
 
   form.addEventListener('submit', async (e) => {
@@ -215,12 +226,11 @@ function showToast(message, isError = false) {
 
     setLoading(true);
 
-    // Si hay endpoint Formspree configurado, enviar ahí
-    if (CONFIG.formspreeEndpoint) {
+    if (sbClient) {
       try {
-        const ok = await submitViaFormspree(d);
-        if (!ok) throw new Error('Formspree error');
-      } catch (_) {
+        await submitViaSupabase(d);
+      } catch (err) {
+        console.error('Supabase error:', err);
         showToast('Error al enviar. Intenta contactarnos por WhatsApp.', true);
         setLoading(false);
         return;

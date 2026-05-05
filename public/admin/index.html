@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin · Isapre Inteligente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; font-family: 'Inter', system-ui, sans-serif; background: #f1f5f9; color: #1e293b; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── LOGIN ─────────────────────────────────────────────── */
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      padding: 20px;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    }
+    .login-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .login-logo h1 { font-size: 1.5rem; font-weight: 800; color: #1e293b; }
+    .login-logo p  { font-size: .9rem; color: #64748b; margin-top: 4px; }
+    .login-logo .badge {
+      display: inline-block;
+      background: #eff6ff;
+      color: #2563eb;
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .field label { font-size: .82rem; font-weight: 600; color: #64748b; }
+    .field input {
+      padding: 10px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: .9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .field input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+    .error-text { font-size: .82rem; color: #dc2626; min-height: 18px; margin-bottom: 8px; }
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: #fff;
+      font-size: .95rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      font-family: inherit;
+    }
+    .btn-login:hover:not(:disabled) { background: #1d4ed8; transform: translateY(-1px); }
+    .btn-login:disabled { opacity: .65; cursor: default; }
+
+    /* ── DASHBOARD ─────────────────────────────────────────── */
+    .admin-header {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 8px rgba(0,0,0,.06);
+    }
+    .admin-header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .admin-header h1 { font-size: 1.1rem; font-weight: 800; color: #1e293b; }
+    .admin-header h1 span {
+      background: #2563eb;
+      color: #fff;
+      font-size: .7rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 8px;
+      vertical-align: middle;
+      letter-spacing: .5px;
+    }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .user-pill {
+      font-size: .82rem;
+      color: #64748b;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+    .btn-logout {
+      padding: 7px 16px;
+      background: none;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: .82rem;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all .2s;
+    }
+    .btn-logout:hover { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+
+    .admin-main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px 24px;
+    }
+
+    /* ── STATS ─────────────────────────────────────────────── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 22px 24px;
+      border: 1.5px solid #e2e8f0;
+    }
+    .stat-card .val  { font-size: 2rem; font-weight: 800; color: #2563eb; line-height: 1; }
+    .stat-card .lbl  { font-size: .82rem; color: #64748b; margin-top: 6px; }
+
+    /* ── TABLE CARD ────────────────────────────────────────── */
+    .table-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1.5px solid #e2e8f0;
+      overflow: hidden;
+    }
+    .table-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid #e2e8f0;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .table-toolbar h2 { font-size: 1rem; font-weight: 700; }
+    .toolbar-actions  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .search-input {
+      padding: 8px 12px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-family: inherit;
+      outline: none;
+      width: 220px;
+      transition: border-color .2s;
+    }
+    .search-input:focus { border-color: #2563eb; }
+    .btn-action {
+      padding: 8px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      background: #fff;
+      color: #475569;
+      transition: all .2s;
+    }
+    .btn-action:hover    { background: #f8fafc; border-color: #94a3b8; }
+    .btn-action.primary  { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .btn-action.primary:hover { background: #1d4ed8; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    thead th {
+      background: #f8fafc;
+      padding: 11px 16px;
+      text-align: left;
+      font-size: .75rem;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      border-bottom: 1px solid #e2e8f0;
+      cursor: pointer;
+      user-select: none;
+    }
+    thead th:hover { background: #f1f5f9; color: #2563eb; }
+    thead th.sorted { color: #2563eb; }
+    tbody tr { border-bottom: 1px solid #f1f5f9; transition: background .15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+    tbody td { padding: 12px 16px; vertical-align: middle; white-space: nowrap; }
+    tbody td.wrap { white-space: normal; max-width: 200px; font-size: .82rem; color: #64748b; }
+    .td-date   { color: #64748b; font-size: .82rem; }
+    .td-name   { font-weight: 600; }
+    .td-link   { color: #2563eb; }
+    .td-link:hover { text-decoration: underline; }
+    .td-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 600;
+      background: #eff6ff;
+      color: #2563eb;
+    }
+    .empty-state, .loading-state {
+      padding: 60px 20px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: .9rem;
+    }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: 10px; }
+
+    @media (max-width: 768px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .admin-header-inner { padding: 0 16px; }
+      .admin-main { padding: 16px; }
+      .table-toolbar { flex-direction: column; align-items: flex-start; }
+      .search-input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── LOGIN ─────────────────────────────────────── -->
+  <div id="loginScreen" class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="badge">Admin</div>
+        <h1>Isapre Inteligente</h1>
+        <p>Panel de Administración</p>
+      </div>
+      <form id="loginForm">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="loginEmail" placeholder="admin@ejemplo.cl" required autocomplete="email" />
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <input type="password" id="loginPass" placeholder="••••••••" required autocomplete="current-password" />
+        </div>
+        <p id="loginError" class="error-text"></p>
+        <button type="submit" class="btn-login" id="loginBtn">Ingresar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── DASHBOARD ─────────────────────────────────── -->
+  <div id="dashboard" style="display:none">
+    <header class="admin-header">
+      <div class="admin-header-inner">
+        <h1>Isapre Inteligente <span>ADMIN</span></h1>
+        <div class="header-right">
+          <span class="user-pill" id="userEmail"></span>
+          <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="val" id="statTotal">—</div>
+          <div class="lbl">Total leads</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" id="statToday">—</div>
+          <div class="lbl">Hoy</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" id="statWeek">—</div>
+          <div class="lbl">Últimos 7 días</div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-toolbar">
+          <h2>Contactos</h2>
+          <div class="toolbar-actions">
+            <input type="search" class="search-input" id="searchInput" placeholder="Buscar nombre, email, región…" />
+            <button class="btn-action" id="refreshBtn">↺ Actualizar</button>
+            <button class="btn-action primary" id="exportBtn">⬇ Exportar CSV</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-col="created_at">Fecha ↕</th>
+                <th data-col="nombre">Nombre ↕</th>
+                <th data-col="email">Email</th>
+                <th data-col="telefono">Teléfono</th>
+                <th data-col="edad">Edad ↕</th>
+                <th data-col="isapre">Isapre ↕</th>
+                <th data-col="sueldo">Sueldo</th>
+                <th data-col="cargas">Cargas</th>
+                <th data-col="region">Región ↕</th>
+                <th>Mensaje</th>
+              </tr>
+            </thead>
+            <tbody id="leadsBody">
+              <tr><td colspan="10"><div class="loading-state">Cargando...</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const sb = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey);
+    let allLeads = [];
+    let sortCol = 'created_at';
+    let sortAsc = false;
+
+    // ── Inicialización ─────────────────────────────────────
+    (async () => {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) showDashboard(session.user);
+      else document.getElementById('loginScreen').style.display = 'flex';
+    })();
+
+    // ── Login ──────────────────────────────────────────────
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      const errEl = document.getElementById('loginError');
+      btn.textContent = 'Ingresando…';
+      btn.disabled = true;
+      errEl.textContent = '';
+
+      const { data, error } = await sb.auth.signInWithPassword({
+        email:    document.getElementById('loginEmail').value,
+        password: document.getElementById('loginPass').value,
+      });
+
+      if (error) {
+        errEl.textContent = 'Email o contraseña incorrectos';
+        btn.textContent = 'Ingresar';
+        btn.disabled = false;
+      } else {
+        showDashboard(data.user);
+      }
+    });
+
+    // ── Logout ─────────────────────────────────────────────
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await sb.auth.signOut();
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('loginEmail').value = '';
+      document.getElementById('loginPass').value = '';
+    });
+
+    // ── Dashboard ──────────────────────────────────────────
+    function showDashboard(user) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      document.getElementById('userEmail').textContent = user.email;
+      loadLeads();
+    }
+
+    async function loadLeads() {
+      document.getElementById('leadsBody').innerHTML =
+        '<tr><td colspan="10"><div class="loading-state">Cargando…</div></td></tr>';
+
+      const { data, error } = await sb
+        .from('leads')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        document.getElementById('leadsBody').innerHTML =
+          `<tr><td colspan="10"><div class="loading-state">Error: ${esc(error.message)}</div></td></tr>`;
+        return;
+      }
+
+      allLeads = data || [];
+      updateStats();
+      renderTable();
+    }
+
+    // ── Stats ──────────────────────────────────────────────
+    function updateStats() {
+      const now     = new Date();
+      const todayStr = now.toISOString().split('T')[0];
+      const weekAgo  = new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString();
+      document.getElementById('statTotal').textContent = allLeads.length;
+      document.getElementById('statToday').textContent =
+        allLeads.filter(l => l.created_at.startsWith(todayStr)).length;
+      document.getElementById('statWeek').textContent =
+        allLeads.filter(l => l.created_at >= weekAgo).length;
+    }
+
+    // ── Tabla ──────────────────────────────────────────────
+    function renderTable() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      let leads = q
+        ? allLeads.filter(l =>
+            [l.nombre, l.email, l.telefono, l.isapre, l.region]
+              .some(v => v && v.toLowerCase().includes(q)))
+        : [...allLeads];
+
+      leads.sort((a, b) => {
+        const va = a[sortCol] ?? '';
+        const vb = b[sortCol] ?? '';
+        const cmp = String(va).localeCompare(String(vb), 'es', { numeric: true });
+        return sortAsc ? cmp : -cmp;
+      });
+
+      if (!leads.length) {
+        document.getElementById('leadsBody').innerHTML =
+          '<tr><td colspan="10"><div class="empty-state"><div class="icon">📭</div>No hay contactos aún</div></td></tr>';
+        return;
+      }
+
+      document.getElementById('leadsBody').innerHTML = leads.map(l => `
+        <tr>
+          <td class="td-date">${fmtDate(l.created_at)}</td>
+          <td class="td-name">${esc(l.nombre)}</td>
+          <td><a class="td-link" href="mailto:${esc(l.email)}">${esc(l.email)}</a></td>
+          <td><a class="td-link" href="tel:${esc(l.telefono)}">${esc(l.telefono)}</a></td>
+          <td>${l.edad ?? '—'}</td>
+          <td><span class="td-badge">${esc(l.isapre || '—')}</span></td>
+          <td>${esc(l.sueldo || '—')}</td>
+          <td>${esc(l.cargas || '—')}</td>
+          <td>${esc(l.region || '—')}</td>
+          <td class="wrap">${l.mensaje ? esc(l.mensaje.slice(0, 60)) + (l.mensaje.length > 60 ? '…' : '') : '—'}</td>
+        </tr>`).join('');
+    }
+
+    // ── Ordenamiento por columna ───────────────────────────
+    document.querySelectorAll('thead th[data-col]').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = th.dataset.col;
+        if (sortCol === col) sortAsc = !sortAsc;
+        else { sortCol = col; sortAsc = true; }
+        document.querySelectorAll('thead th').forEach(t => t.classList.remove('sorted'));
+        th.classList.add('sorted');
+        renderTable();
+      });
+    });
+
+    // ── Buscar ─────────────────────────────────────────────
+    document.getElementById('searchInput').addEventListener('input', renderTable);
+
+    // ── Actualizar ─────────────────────────────────────────
+    document.getElementById('refreshBtn').addEventListener('click', loadLeads);
+
+    // ── Exportar CSV ───────────────────────────────────────
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const headers = ['Fecha','Nombre','Email','Teléfono','Edad','Isapre','Sueldo','Cargas','Región','Mensaje'];
+      const rows = allLeads.map(l =>
+        [fmtDate(l.created_at), l.nombre, l.email, l.telefono,
+         l.edad, l.isapre, l.sueldo, l.cargas, l.region, l.mensaje || '']
+        .map(v => `"${String(v ?? '').replace(/"/g, '""')}"`)
+        .join(',')
+      );
+      const csv  = [headers.join(','), ...rows].join('\n');
+      const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+      const a    = document.createElement('a');
+      a.href     = URL.createObjectURL(blob);
+      a.download = `leads_${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+    });
+
+    // ── Helpers ────────────────────────────────────────────
+    function fmtDate(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('es-CL') + ' ' +
+             d.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+    }
+    function esc(s) {
+      return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>
