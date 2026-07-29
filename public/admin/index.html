@@ -455,11 +455,14 @@
         document.getElementById('tabsBar').style.display = 'flex';
         document.getElementById('assignCol').style.display = '';
         document.getElementById('assignedAtCol').style.display = '';
+        document.getElementById('sUnassignedCard').style.display = '';
         await loadAgents();
         await Promise.all([loadLeads(), loadUsers()]);
       } else {
-        document.getElementById('sUnassignedCard').style.display = 'none';
+        document.getElementById('tabsBar').style.display = 'none';
+        document.getElementById('assignCol').style.display = 'none';
         document.getElementById('assignedAtCol').style.display = '';
+        document.getElementById('sUnassignedCard').style.display = 'none';
         await loadLeads();
       }
       setupRealtime();
