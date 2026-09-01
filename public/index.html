@@ -185,6 +185,23 @@
               </div>
               <div class="form-row">
                 <div class="form-group">
+                  <label for="convenioMoneda"><i class="fa-solid fa-coins" aria-hidden="true"></i> ¿Pagas en UF o pesos?</label>
+                  <select id="convenioMoneda" name="convenioMoneda" aria-describedby="error-convenioMoneda" required>
+                    <option value="">Selecciona UF o $</option>
+                    <option value="UF">UF</option>
+                    <option value="$">Pesos ($)</option>
+                  </select>
+                  <span class="error-msg" id="error-convenioMoneda" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="convenioMonto"><i class="fa-solid fa-money-check-dollar" aria-hidden="true"></i> ¿Cuánto pagas al mes?</label>
+                  <input type="number" id="convenioMonto" name="convenioMonto" placeholder="Ej: 4.2 (UF) o 180000 ($)"
+                    min="0" step="0.01" inputmode="decimal" aria-describedby="error-convenioMonto" required />
+                  <span class="error-msg" id="error-convenioMonto" role="alert"></span>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
                   <label for="cargas"><i class="fa-solid fa-people-group" aria-hidden="true"></i> Cargas
                     familiares</label>
                   <select id="cargas" name="cargas" aria-describedby="error-cargas" required>

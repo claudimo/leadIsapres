@@ -369,7 +369,7 @@ img { max-width: 100%; display: block; }
 .form-card-header p    { color: rgba(255,255,255,.9); font-size: .82rem; }
 
 .lead-form { padding: 16px 22px 20px; }
-.form-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.form-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; align-items: end; }
 .form-group { display: flex; flex-direction: column; gap: 4px; }
 .form-group.full-width { margin-bottom: 10px; }
 .form-group label {

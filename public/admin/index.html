@@ -308,6 +308,7 @@
                   <th data-col="telefono" aria-sort="none"><button type="button" class="th-sort">Teléfono</button></th>
                   <th data-col="isapre" aria-sort="none"><button type="button" class="th-sort">Isapre</button></th>
                   <th data-col="sueldo" aria-sort="none"><button type="button" class="th-sort">Sueldo</button></th>
+                  <th data-col="convenio_monto" aria-sort="none"><button type="button" class="th-sort">Pago convenio</button></th>
                   <th data-col="region" aria-sort="none"><button type="button" class="th-sort">Región</button></th>
                   <th id="assignCol" style="display:none">Asignado a</th>
                   <th id="assignedAtCol" style="display:none">F. Asignación</th>
@@ -315,7 +316,7 @@
                 </tr>
               </thead>
               <tbody id="leadsBody">
-                <tr class="empty-row"><td colspan="10">Cargando…</td></tr>
+                <tr class="empty-row"><td colspan="11">Cargando…</td></tr>
               </tbody>
             </table>
           </div>
@@ -607,11 +608,11 @@
     // ── CARGAR LEADS ───────────────────────────────────────
     async function loadLeads() {
       document.getElementById('leadsBody').innerHTML =
-        '<tr class="empty-row"><td colspan="10">Cargando…</td></tr>';
+        '<tr class="empty-row"><td colspan="11">Cargando…</td></tr>';
       const { data, error } = await sb.from('leads').select('*').order('created_at', { ascending: false });
       if (error) {
         document.getElementById('leadsBody').innerHTML =
-          `<tr class="empty-row"><td colspan="10">Error: ${esc(error.message)}</td></tr>`;
+          `<tr class="empty-row"><td colspan="11">Error: ${esc(error.message)}</td></tr>`;
         return;
       }
       allLeads = data || [];
@@ -642,7 +643,7 @@
 
       if (!leads.length) {
         document.getElementById('leadsBody').innerHTML =
-          '<tr class="empty-row"><td colspan="10">Sin resultados</td></tr>';
+          '<tr class="empty-row"><td colspan="11">Sin resultados</td></tr>';
         return;
       }
 
@@ -656,6 +657,7 @@
           <td><a class="td-link" href="tel:${esc(l.telefono)}">${esc(l.telefono)}</a></td>
           <td><span class="td-badge">${esc(l.isapre||'—')}</span></td>
           <td>${esc(l.sueldo||'—')}</td>
+          <td>${esc(fmtConvenio(l))}</td>
           <td>${esc(l.region||'—')}</td>
           ${currentRole === 'admin' ? `<td>${assignCell}</td><td>${assignedAt}</td>` : `<td>${assignedAt}</td>`}
           <td class="td-msg" title="${esc(l.mensaje||'')}">${l.mensaje ? esc(l.mensaje.slice(0,50))+(l.mensaje.length>50?'…':'') : '—'}</td>
@@ -714,11 +716,11 @@
 
     // ── EXPORT CSV ─────────────────────────────────────────
     document.getElementById('leadsExport').addEventListener('click', () => {
-      const headers = ['Fecha','Nombre','Email','Teléfono','Isapre','Sueldo','Cargas','Región','Asignado a','Mensaje'];
+      const headers = ['Fecha','Nombre','Email','Teléfono','Isapre','Sueldo','Pago convenio','Cargas','Región','Asignado a','Mensaje'];
       const rows = allLeads.map(l => {
         const agent = allAgents.find(a => a.id === l.assigned_to);
         return [fmtDate(l.created_at), l.nombre, l.email, l.telefono,
-                l.isapre, l.sueldo, l.cargas, l.region,
+                l.isapre, l.sueldo, fmtConvenio(l), l.cargas, l.region,
                 agent ? (agent.name||agent.email) : '', l.mensaje||'']
           .map(v => `"${String(v??'').replace(/"/g,'""')}"`)
           .join(',');
@@ -930,6 +932,14 @@
       const d = new Date(iso);
       return d.toLocaleDateString('es-CL') + ' ' +
              d.toLocaleTimeString('es-CL', { hour:'2-digit', minute:'2-digit' });
+    }
+    function fmtConvenio(l) {
+      if (l.convenio_monto == null || l.convenio_monto === '') return '—';
+      const n = Number(l.convenio_monto);
+      if (!Number.isFinite(n)) return '—';
+      return l.convenio_moneda === 'UF'
+        ? `${n.toLocaleString('es-CL', { maximumFractionDigits: 2 })} UF`
+        : `$${n.toLocaleString('es-CL')}`;
     }
     function esc(s) {
       return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');

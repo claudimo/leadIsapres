@@ -24,7 +24,8 @@ leadIsapres/
 │   ├── functions/
 │   │   └── notify-lead/    ← Edge Function: email al crear un lead
 │   └── sql/
-│       └── rls-policies.sql ← Políticas de seguridad (correr en SQL Editor)
+│       ├── rls-policies.sql        ← Políticas de seguridad (correr en SQL Editor)
+│       └── add-convenio-columns.sql ← Añade convenio_moneda / convenio_monto a leads
 ├── scripts/
 │   └── build-config.js     ← Genera config.js desde .env + config.template.js
 ├── .env.example             ← Plantilla de variables de entorno
@@ -181,7 +182,7 @@ Guía de diseño instalada en `.claude/skills/` (skill **ui-ux-pro-max**, vía `
 
 | Tabla | Uso |
 |---|---|
-| `leads` | Un registro por envío del formulario (`nombre`, `email`, `telefono`, `edad`, `isapre`, `sueldo`, `cargas`, `region`, `mensaje`, `created_at`, `assigned_to`) |
+| `leads` | Un registro por envío del formulario (`nombre`, `email`, `telefono`, `edad`, `isapre`, `sueldo`, `convenio_moneda`, `convenio_monto`, `cargas`, `region`, `mensaje`, `created_at`, `assigned_to`) |
 | `profiles` | Un registro por usuario del panel (`id` = mismo UUID que `auth.users`, `name`, `email`, `role` = `admin` \| `agent`, `active`) |
 
 **Roles:**

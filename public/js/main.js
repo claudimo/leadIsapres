@@ -152,6 +152,7 @@ function showToast(message, isError = false) {
   const FIELD_LABELS = {
     nombre: 'Nombre completo', email: 'Correo electrónico', telefono: 'Teléfono',
     edad: 'Edad', isapre: 'Isapre actual', sueldo: 'Rango de sueldo',
+    convenioMoneda: 'Moneda del convenio', convenioMonto: 'Monto del convenio',
     cargas: 'Cargas familiares', region: 'Región',
   };
 
@@ -163,6 +164,8 @@ function showToast(message, isError = false) {
     edad:     v => { const n = parseInt(v, 10); return (!v || isNaN(n) || n < 18 || n > 100) ? 'La edad debe estar entre 18 y 100' : ''; },
     isapre:   v => !v ? 'Selecciona tu isapre actual' : '',
     sueldo:   v => !v ? 'Selecciona un rango de sueldo' : '',
+    convenioMoneda: v => !v ? 'Indica si pagas en UF o en pesos' : '',
+    convenioMonto:  v => { const n = parseFloat(String(v).replace(',', '.')); return (!v || isNaN(n) || n <= 0) ? 'Ingresa el monto que pagas en tu convenio actual' : ''; },
     cargas:   v => (!v && v !== '0') ? 'Indica cuántas cargas tienes' : '',
     region:   v => !v ? 'Selecciona tu región' : '',
   };
@@ -231,6 +234,7 @@ function showToast(message, isError = false) {
       `🎂 *Edad:* ${d.edad} años`,
       `🏥 *Isapre actual:* ${d.isapre}`,
       `💰 *Sueldo:* ${d.sueldo}`,
+      `💵 *Paga en convenio actual:* ${d.convenioMonto} ${d.convenioMoneda}`,
       `👨‍👩‍👧 *Cargas:* ${d.cargas === '0' ? 'Sin cargas' : d.cargas}`,
       `📍 *Región:* ${d.region}`,
       d.mensaje ? `💬 *Mensaje:* ${d.mensaje}` : '',
@@ -251,6 +255,8 @@ function showToast(message, isError = false) {
       edad:     data.edad,
       isapre:   data.isapre,
       sueldo:   data.sueldo,
+      convenio_moneda: data.convenioMoneda,
+      convenio_monto:  Number.isFinite(data.convenioMonto) ? data.convenioMonto : null,
       cargas:   data.cargas,
       region:   data.region,
       mensaje:  data.mensaje || null,
@@ -269,6 +275,8 @@ function showToast(message, isError = false) {
       edad:     parseInt(form.edad.value, 10),
       isapre:   form.isapre.value,
       sueldo:   form.sueldo.value,
+      convenioMoneda: form.convenioMoneda.value,
+      convenioMonto:  parseFloat(String(form.convenioMonto.value).replace(',', '.')),
       cargas:   form.cargas.value,
       region:   form.region.value,
       mensaje:  form.mensaje.value.trim(),

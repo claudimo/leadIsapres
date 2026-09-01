@@ -29,6 +29,7 @@ Deno.serve(async (req) => {
     ['Edad', lead.edad],
     ['Isapre actual', lead.isapre],
     ['Sueldo', lead.sueldo],
+    ['Pago convenio actual', lead.convenio_monto != null ? `${lead.convenio_monto} ${lead.convenio_moneda ?? ''}`.trim() : '—'],
     ['Cargas familiares', lead.cargas],
     ['Región', lead.region],
     ['Mensaje', lead.mensaje || '—'],
