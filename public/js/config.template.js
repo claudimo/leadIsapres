@@ -1,16 +1,17 @@
 /* ══════════════════════════════════════════════════════════
    ISAPRE INTELIGENTE — Configuración
-   Edita este archivo para personalizar el sitio
+   Plantilla versionada en git. NO pongas credenciales reales aquí.
+
+   public/js/config.js se genera a partir de este archivo + .env
+   ejecutando `npm run build` (ver README → Configuración).
 ══════════════════════════════════════════════════════════ */
 
 const CONFIG = {
 
   // ── Supabase ──────────────────────────────────────────────
-  // 1. Crea un proyecto en https://supabase.com
-  // 2. Ve a Project Settings → API y copia los valores
-  // 3. Crea la tabla "leads" con el SQL del README
-  supabaseUrl: 'https://vvcmimpnfowhnainjvrc.supabase.co',   // Ej: 'https://xyzxyz.supabase.co'
-  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2Y21pbXBuZm93aG5haW5qdnJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5ODc0MDksImV4cCI6MjA5MzU2MzQwOX0.QNO4iBU62fsaA9OaEtkDCEz1nlIgtjqmWMeisUg-HXY',   // Clave anon/public (segura para el frontend)
+  // Valores tomados de .env (SUPABASE_URL / SUPABASE_ANON_KEY) al generar config.js
+  supabaseUrl: '__SUPABASE_URL__',
+  supabaseAnonKey: '__SUPABASE_ANON_KEY__',
 
   // ── WhatsApp ──────────────────────────────────────────────
   // Número con código de país, sin + ni espacios

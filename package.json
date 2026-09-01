@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Landing page Isapre Inteligente",
   "scripts": {
+    "build": "node scripts/build-config.js",
+    "prestart": "node scripts/build-config.js",
     "start": "node server.js"
   },
   "engines": {

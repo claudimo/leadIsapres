@@ -10,14 +10,14 @@
   <script src="../js/config.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: 'Inter', system-ui, sans-serif; background: #f1f5f9; color: #1e293b; }
+    html, body { height: 100%; font-family: 'Inter', system-ui, sans-serif; background: #E8F2F8; color: #13233A; }
     a { text-decoration: none; color: inherit; }
     button { font-family: inherit; }
 
     /* ── LOGIN ──────────────────────────────────────────── */
     .login-wrap {
       min-height: 100vh; display: flex; align-items: center;
-      justify-content: center; background: linear-gradient(135deg, #1d4ed8, #3b82f6); padding: 20px;
+      justify-content: center; background: linear-gradient(135deg, #082F4C, #27B8C7); padding: 20px;
     }
     .login-card {
       background: #fff; border-radius: 20px; padding: 44px 40px;
@@ -25,33 +25,33 @@
     }
     .login-logo { text-align: center; margin-bottom: 32px; }
     .login-logo .badge {
-      display: inline-block; background: #eff6ff; color: #2563eb;
+      display: inline-block; background: #E4EFF5; color: #0B426A;
       font-size: .72rem; font-weight: 700; padding: 3px 10px;
       border-radius: 999px; margin-bottom: 10px; letter-spacing: .5px; text-transform: uppercase;
     }
     .login-logo h1 { font-size: 1.4rem; font-weight: 800; }
-    .login-logo p  { font-size: .85rem; color: #64748b; margin-top: 4px; }
+    .login-logo p  { font-size: .85rem; color: #55697A; margin-top: 4px; }
     .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
-    .field label { font-size: .8rem; font-weight: 600; color: #64748b; }
+    .field label { font-size: .8rem; font-weight: 600; color: #55697A; }
     .field input, .field select {
-      padding: 10px 13px; border: 1.5px solid #e2e8f0; border-radius: 10px;
+      padding: 10px 13px; border: 1.5px solid #D5E4EE; border-radius: 10px;
       font-size: .9rem; font-family: inherit; outline: none; transition: border-color .2s;
     }
-    .field input:focus, .field select:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+    .field input:focus, .field select:focus { border-color: #0B426A; box-shadow: 0 0 0 3px rgba(11,66,106,.12); }
     .error-text { font-size: .8rem; color: #dc2626; min-height: 16px; margin-bottom: 6px; }
     .btn-primary {
-      width: 100%; padding: 11px; background: #2563eb; color: #fff;
+      width: 100%; padding: 11px; background: #0B426A; color: #fff;
       font-size: .9rem; font-weight: 700; border: none; border-radius: 10px;
       cursor: pointer; transition: background .2s, transform .15s;
     }
-    .btn-primary:hover:not(:disabled) { background: #1d4ed8; transform: translateY(-1px); }
+    .btn-primary:hover:not(:disabled) { background: #082F4C; transform: translateY(-1px); }
     .btn-primary:disabled { opacity: .6; cursor: default; }
 
     /* ── SHELL ──────────────────────────────────────────── */
     .shell { display: flex; flex-direction: column; min-height: 100vh; }
 
     .admin-header {
-      background: #fff; border-bottom: 1px solid #e2e8f0;
+      background: #fff; border-bottom: 1px solid #D5E4EE;
       position: sticky; top: 0; z-index: 200;
       box-shadow: 0 1px 6px rgba(0,0,0,.06);
     }
@@ -61,29 +61,29 @@
     }
     .admin-header h1 { font-size: 1rem; font-weight: 800; }
     .admin-header h1 span {
-      background: #2563eb; color: #fff; font-size: .65rem;
+      background: #0B426A; color: #fff; font-size: .65rem;
       padding: 2px 7px; border-radius: 5px; margin-left: 7px;
       vertical-align: middle; letter-spacing: .4px;
     }
     .header-right { display: flex; align-items: center; gap: 10px; }
     .user-pill {
-      font-size: .8rem; color: #64748b; background: #f8fafc;
-      border: 1px solid #e2e8f0; padding: 4px 11px; border-radius: 999px;
+      font-size: .8rem; color: #55697A; background: #F3F9FC;
+      border: 1px solid #D5E4EE; padding: 4px 11px; border-radius: 999px;
     }
     .user-role-badge {
       font-size: .7rem; font-weight: 700; padding: 3px 8px; border-radius: 999px;
       background: #fef3c7; color: #92400e; letter-spacing: .3px; text-transform: uppercase;
     }
-    .user-role-badge.admin { background: #eff6ff; color: #1d4ed8; }
+    .user-role-badge.admin { background: #E4EFF5; color: #082F4C; }
     .btn-sm {
-      padding: 6px 14px; border: 1.5px solid #e2e8f0; border-radius: 8px;
-      font-size: .8rem; font-weight: 600; cursor: pointer; background: #fff; color: #64748b;
+      padding: 6px 14px; border: 1.5px solid #D5E4EE; border-radius: 8px;
+      font-size: .8rem; font-weight: 600; cursor: pointer; background: #fff; color: #55697A;
       transition: all .2s;
     }
-    .btn-sm:hover { border-color: #94a3b8; background: #f8fafc; }
+    .btn-sm:hover { border-color: #7A8C9A; background: #F3F9FC; }
     .btn-sm.danger:hover { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
     .rt-dot {
-      width: 8px; height: 8px; border-radius: 50%; background: #94a3b8;
+      width: 8px; height: 8px; border-radius: 50%; background: #7A8C9A;
       display: inline-block; transition: background .4s;
     }
     .rt-dot.live { background: #22c55e; box-shadow: 0 0 0 2px rgba(34,197,94,.25); animation: pulse-dot 2s infinite; }
@@ -92,16 +92,16 @@
 
     /* ── TABS ───────────────────────────────────────────── */
     .tabs-bar {
-      background: #fff; border-bottom: 1px solid #e2e8f0;
+      background: #fff; border-bottom: 1px solid #D5E4EE;
       display: flex; gap: 0; padding: 0 24px; max-width: 1400px; margin: 0 auto; width: 100%;
     }
     .tab-btn {
-      padding: 13px 18px; font-size: .88rem; font-weight: 600; color: #64748b;
+      padding: 13px 18px; font-size: .88rem; font-weight: 600; color: #55697A;
       border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent;
       margin-bottom: -1px; transition: all .2s;
     }
-    .tab-btn:hover { color: #2563eb; }
-    .tab-btn.active { color: #2563eb; border-bottom-color: #2563eb; }
+    .tab-btn:hover { color: #0B426A; }
+    .tab-btn.active { color: #0B426A; border-bottom-color: #0B426A; }
 
     /* ── MAIN ───────────────────────────────────────────── */
     .admin-main { max-width: 1400px; margin: 0 auto; padding: 24px; flex: 1; width: 100%; }
@@ -110,71 +110,82 @@
 
     /* ── STATS ──────────────────────────────────────────── */
     .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
-    .stat-card { background: #fff; border-radius: 12px; padding: 18px 20px; border: 1.5px solid #e2e8f0; }
-    .stat-card .val { font-size: 1.9rem; font-weight: 800; color: #2563eb; line-height: 1; }
-    .stat-card .lbl { font-size: .78rem; color: #64748b; margin-top: 5px; }
+    .stat-card { background: #fff; border-radius: 12px; padding: 18px 20px; border: 1.5px solid #D5E4EE; }
+    .stat-card .val { font-size: 1.9rem; font-weight: 800; color: #0B426A; line-height: 1; }
+    .stat-card .lbl { font-size: .78rem; color: #55697A; margin-top: 5px; }
 
     /* ── CARD ───────────────────────────────────────────── */
-    .card { background: #fff; border-radius: 14px; border: 1.5px solid #e2e8f0; overflow: hidden; margin-bottom: 20px; }
+    .card { background: #fff; border-radius: 14px; border: 1.5px solid #D5E4EE; overflow: hidden; margin-bottom: 20px; }
     .card-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 15px 20px; border-bottom: 1px solid #f1f5f9; flex-wrap: wrap; gap: 10px;
+      padding: 15px 20px; border-bottom: 1px solid #E8F2F8; flex-wrap: wrap; gap: 10px;
     }
     .card-header h2 { font-size: .95rem; font-weight: 700; }
     .card-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     .search-input {
-      padding: 7px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+      padding: 7px 12px; border: 1.5px solid #D5E4EE; border-radius: 8px;
       font-size: .83rem; font-family: inherit; outline: none; width: 200px; transition: border-color .2s;
     }
-    .search-input:focus { border-color: #2563eb; }
+    .search-input:focus { border-color: #0B426A; }
     .btn-outline {
-      padding: 7px 13px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+      padding: 7px 13px; border: 1.5px solid #D5E4EE; border-radius: 8px;
       font-size: .8rem; font-weight: 600; cursor: pointer; background: #fff; color: #475569;
       transition: all .2s; white-space: nowrap;
     }
-    .btn-outline:hover { background: #f8fafc; border-color: #94a3b8; }
+    .btn-outline:hover { background: #F3F9FC; border-color: #7A8C9A; }
     .btn-blue {
       padding: 7px 13px; border: none; border-radius: 8px;
-      font-size: .8rem; font-weight: 700; cursor: pointer; background: #2563eb; color: #fff;
+      font-size: .8rem; font-weight: 700; cursor: pointer; background: #0B426A; color: #fff;
       transition: background .2s; white-space: nowrap;
     }
-    .btn-blue:hover { background: #1d4ed8; }
+    .btn-blue:hover { background: #082F4C; }
 
     /* ── TABLE ──────────────────────────────────────────── */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: .85rem; }
     thead th {
-      background: #f8fafc; padding: 10px 14px; text-align: left;
-      font-size: .72rem; font-weight: 700; color: #64748b;
+      background: #F3F9FC; padding: 10px 14px; text-align: left;
+      font-size: .72rem; font-weight: 700; color: #55697A;
       letter-spacing: .4px; text-transform: uppercase; white-space: nowrap;
-      border-bottom: 1px solid #e2e8f0; cursor: pointer; user-select: none;
+      border-bottom: 1px solid #D5E4EE; user-select: none;
     }
-    thead th:hover { background: #f1f5f9; color: #2563eb; }
-    thead th.sorted { color: #2563eb; }
-    tbody tr { border-bottom: 1px solid #f8fafc; transition: background .12s; }
+    thead th[data-col] { padding: 0; }
+    .th-sort {
+      width: 100%; padding: 10px 14px; text-align: left;
+      font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit;
+      background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px;
+      transition: background .15s, color .15s;
+    }
+    .th-sort::after { content: '↕'; opacity: .45; font-size: .8em; }
+    .th-sort:hover { background: #E8F2F8; color: #0B426A; }
+    thead th[aria-sort="ascending"]  .th-sort { color: #0B426A; }
+    thead th[aria-sort="ascending"]  .th-sort::after { content: '↑'; opacity: 1; }
+    thead th[aria-sort="descending"] .th-sort { color: #0B426A; }
+    thead th[aria-sort="descending"] .th-sort::after { content: '↓'; opacity: 1; }
+    tbody tr { border-bottom: 1px solid #F3F9FC; transition: background .12s; }
     tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: #f8fafc; }
+    tbody tr:hover { background: #F3F9FC; }
     tbody td { padding: 11px 14px; vertical-align: middle; white-space: nowrap; }
-    .td-date  { color: #64748b; font-size: .78rem; }
+    .td-date  { color: #55697A; font-size: .78rem; }
     .td-name  { font-weight: 600; }
-    .td-link  { color: #2563eb; }
+    .td-link  { color: #0B426A; }
     .td-link:hover { text-decoration: underline; }
     .td-badge {
       display: inline-block; padding: 2px 8px; border-radius: 999px;
-      font-size: .73rem; font-weight: 600; background: #eff6ff; color: #2563eb;
+      font-size: .73rem; font-weight: 600; background: #E4EFF5; color: #0B426A;
     }
     .td-badge.agent { background: #f0fdf4; color: #15803d; }
     .td-badge.unassigned { background: #fef9c3; color: #854d0e; }
-    .td-msg   { max-width: 160px; overflow: hidden; text-overflow: ellipsis; color: #64748b; font-size: .8rem; }
+    .td-msg   { max-width: 160px; overflow: hidden; text-overflow: ellipsis; color: #55697A; font-size: .8rem; }
     .assign-select {
-      padding: 4px 8px; border: 1.5px solid #e2e8f0; border-radius: 7px;
+      padding: 4px 8px; border: 1.5px solid #D5E4EE; border-radius: 7px;
       font-size: .8rem; font-family: inherit; outline: none; cursor: pointer;
-      background: #f8fafc; color: #1e293b; min-width: 140px;
+      background: #F3F9FC; color: #13233A; min-width: 140px;
       transition: border-color .2s;
     }
-    .assign-select:focus { border-color: #2563eb; }
+    .assign-select:focus { border-color: #0B426A; }
     .assign-select.assigned { border-color: #86efac; background: #f0fdf4; }
-    .empty-row td { padding: 48px 20px; text-align: center; color: #94a3b8; font-size: .9rem; }
+    .empty-row td { padding: 48px 20px; text-align: center; color: #7A8C9A; font-size: .9rem; }
 
     /* ── MODAL ──────────────────────────────────────────── */
     .modal-overlay {
@@ -190,16 +201,16 @@
     .modal h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; }
     .modal-footer { display: flex; gap: 10px; margin-top: 20px; }
     .btn-cancel {
-      flex: 1; padding: 10px; border: 1.5px solid #e2e8f0; border-radius: 10px;
-      font-size: .9rem; font-weight: 600; cursor: pointer; background: #fff; color: #64748b;
+      flex: 1; padding: 10px; border: 1.5px solid #D5E4EE; border-radius: 10px;
+      font-size: .9rem; font-weight: 600; cursor: pointer; background: #fff; color: #55697A;
       font-family: inherit; transition: all .2s;
     }
-    .btn-cancel:hover { background: #f8fafc; }
+    .btn-cancel:hover { background: #F3F9FC; }
 
     /* ── USERS TABLE ────────────────────────────────────── */
     .user-avatar {
-      width: 32px; height: 32px; border-radius: 50%; background: #eff6ff;
-      color: #2563eb; font-size: .8rem; font-weight: 700;
+      width: 32px; height: 32px; border-radius: 50%; background: #E4EFF5;
+      color: #0B426A; font-size: .8rem; font-weight: 700;
       display: inline-flex; align-items: center; justify-content: center;
     }
     .user-info { display: flex; align-items: center; gap: 10px; }
@@ -210,6 +221,14 @@
       .admin-main { padding: 16px; }
       .search-input { width: 100%; }
       .card-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
     }
   </style>
 </head>
@@ -232,7 +251,7 @@
           <label>Contraseña</label>
           <input type="password" id="loginPass" placeholder="••••••••" required autocomplete="current-password" />
         </div>
-        <p id="loginError" class="error-text"></p>
+        <p id="loginError" class="error-text" role="alert" aria-live="assertive"></p>
         <button type="submit" class="btn-primary" id="loginBtn">Ingresar</button>
       </form>
     </div>
@@ -244,7 +263,7 @@
       <div class="admin-header-inner">
         <h1>Isapre Inteligente <span id="roleLabel">ADMIN</span></h1>
         <div class="header-right">
-          <span title="Estado tiempo real" style="display:flex;align-items:center;gap:5px;font-size:.75rem;color:#64748b">
+          <span title="Estado tiempo real" style="display:flex;align-items:center;gap:5px;font-size:.75rem;color:#55697A">
             <span class="rt-dot" id="rtDot"></span>
             <span id="rtLabel">—</span>
           </span>
@@ -283,13 +302,13 @@
             <table>
               <thead id="leadsHead">
                 <tr>
-                  <th data-col="created_at">Fecha ↕</th>
-                  <th data-col="nombre">Nombre ↕</th>
-                  <th data-col="email">Email</th>
-                  <th data-col="telefono">Teléfono</th>
-                  <th data-col="isapre">Isapre ↕</th>
-                  <th data-col="sueldo">Sueldo</th>
-                  <th data-col="region">Región ↕</th>
+                  <th data-col="created_at" aria-sort="descending"><button type="button" class="th-sort">Fecha</button></th>
+                  <th data-col="nombre" aria-sort="none"><button type="button" class="th-sort">Nombre</button></th>
+                  <th data-col="email" aria-sort="none"><button type="button" class="th-sort">Email</button></th>
+                  <th data-col="telefono" aria-sort="none"><button type="button" class="th-sort">Teléfono</button></th>
+                  <th data-col="isapre" aria-sort="none"><button type="button" class="th-sort">Isapre</button></th>
+                  <th data-col="sueldo" aria-sort="none"><button type="button" class="th-sort">Sueldo</button></th>
+                  <th data-col="region" aria-sort="none"><button type="button" class="th-sort">Región</button></th>
                   <th id="assignCol" style="display:none">Asignado a</th>
                   <th id="assignedAtCol" style="display:none">F. Asignación</th>
                   <th>Mensaje</th>
@@ -337,8 +356,8 @@
 
   <!-- ── MODAL CREAR USUARIO ───────────────────────── -->
   <div class="modal-overlay" id="modalCreateUser">
-    <div class="modal">
-      <h3>Crear usuario</h3>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalCreateUserTitle">
+      <h3 id="modalCreateUserTitle">Crear usuario</h3>
       <form id="createUserForm">
         <div class="field">
           <label>Nombre</label>
@@ -359,7 +378,7 @@
             <option value="admin">Administrador</option>
           </select>
         </div>
-        <p id="cuError" class="error-text"></p>
+        <p id="cuError" class="error-text" role="alert" aria-live="assertive"></p>
         <div class="modal-footer">
           <button type="button" class="btn-cancel" id="closeCreateUser">Cancelar</button>
           <button type="submit" class="btn-primary" id="cuBtn" style="flex:1">Crear usuario</button>
@@ -370,8 +389,8 @@
 
   <!-- ── MODAL EDITAR USUARIO ─────────────────────────── -->
   <div class="modal-overlay" id="modalEditUser">
-    <div class="modal">
-      <h3>Editar usuario</h3>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalEditUserTitle">
+      <h3 id="modalEditUserTitle">Editar usuario</h3>
       <form id="editUserForm">
         <input type="hidden" id="euId" />
         <div class="field">
@@ -380,7 +399,7 @@
         </div>
         <div class="field">
           <label>Email</label>
-          <input type="email" id="euEmail" disabled style="background:#f8fafc;opacity:.7;cursor:not-allowed" />
+          <input type="email" id="euEmail" disabled style="background:#F3F9FC;opacity:.7;cursor:not-allowed" />
         </div>
         <div class="field">
           <label>Rol</label>
@@ -389,11 +408,11 @@
             <option value="admin">Administrador</option>
           </select>
         </div>
-        <div class="field" style="flex-direction:row;align-items:center;justify-content:space-between;padding:10px 13px;border:1.5px solid #e2e8f0;border-radius:10px;background:#f8fafc">
+        <div class="field" style="flex-direction:row;align-items:center;justify-content:space-between;padding:10px 13px;border:1.5px solid #D5E4EE;border-radius:10px;background:#F3F9FC">
           <span style="font-size:.83rem;color:#475569">Contraseña</span>
           <button type="button" class="btn-outline" id="euSendReset" style="font-size:.78rem;padding:5px 11px">Enviar reset por email</button>
         </div>
-        <p id="euError" class="error-text"></p>
+        <p id="euError" class="error-text" role="alert" aria-live="assertive"></p>
         <div class="modal-footer">
           <button type="button" class="btn-cancel" id="closeEditUser">Cancelar</button>
           <button type="submit" class="btn-primary" id="euBtn" style="flex:1">Guardar cambios</button>
@@ -629,7 +648,7 @@
 
       document.getElementById('leadsBody').innerHTML = leads.map(l => {
         const assignCell   = currentRole === 'admin' ? buildAssignSelect(l) : '';
-        const assignedAt   = l.assigned_at ? `<span class="td-date">${fmtDate(l.assigned_at)}</span>` : '<span style="color:#94a3b8">—</span>';
+        const assignedAt   = l.assigned_at ? `<span class="td-date">${fmtDate(l.assigned_at)}</span>` : '<span style="color:#7A8C9A">—</span>';
         return `<tr>
           <td class="td-date">${fmtDate(l.created_at)}</td>
           <td class="td-name">${esc(l.nombre)}</td>
@@ -674,15 +693,21 @@
     }
 
     // ── SORT ───────────────────────────────────────────────
+    function applySortIndicators() {
+      document.querySelectorAll('thead th[data-col]').forEach(t => {
+        t.setAttribute('aria-sort',
+          t.dataset.col === sortCol ? (sortAsc ? 'ascending' : 'descending') : 'none');
+      });
+    }
     document.querySelectorAll('thead th[data-col]').forEach(th => {
       th.addEventListener('click', () => {
         if (sortCol === th.dataset.col) sortAsc = !sortAsc;
         else { sortCol = th.dataset.col; sortAsc = true; }
-        document.querySelectorAll('thead th').forEach(t => t.classList.remove('sorted'));
-        th.classList.add('sorted');
+        applySortIndicators();
         renderLeads();
       });
     });
+    applySortIndicators();
 
     document.getElementById('leadsSearch').addEventListener('input', renderLeads);
     document.getElementById('leadsRefresh').addEventListener('click', loadLeads);
@@ -714,7 +739,7 @@
       (leads||[]).forEach(l => { if (l.assigned_to) countMap[l.assigned_to] = (countMap[l.assigned_to]||0)+1; });
 
       if (!profiles?.length) {
-        document.getElementById('usersBody').innerHTML = '<tr class="empty-row"><td colspan="6" style="text-align:center;padding:40px;color:#94a3b8">Sin usuarios</td></tr>';
+        document.getElementById('usersBody').innerHTML = '<tr class="empty-row"><td colspan="6" style="text-align:center;padding:40px;color:#7A8C9A">Sin usuarios</td></tr>';
         return;
       }
       document.getElementById('usersBody').innerHTML = profiles.map(p => {
@@ -731,7 +756,7 @@
           <td>${countMap[p.id]||0}</td>
           <td><span class="td-badge ${isActive?'':'unassigned'}">${isActive?'Activo':'Inactivo'}</span></td>
           <td style="display:flex;gap:6px;align-items:center">
-            ${isSelf ? '<span style="color:#94a3b8;font-size:.8rem">—</span>' : `
+            ${isSelf ? '<span style="color:#7A8C9A;font-size:.8rem">—</span>' : `
               <button class="btn-sm" onclick="openEditUser('${p.id}')">Editar</button>
               <button class="btn-sm ${isActive?'danger':''}" onclick="toggleUser('${p.id}',${isActive})">${isActive?'Desactivar':'Activar'}</button>
             `}
@@ -747,6 +772,40 @@
       if (!error) await loadUsers();
     }
 
+    // ── MODALES (foco, Esc, trap, click-fuera) ─────────────
+    let lastFocusedEl = null;
+    const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])';
+
+    function openModal(id) {
+      const overlay = document.getElementById(id);
+      lastFocusedEl = document.activeElement;
+      overlay.classList.add('open');
+
+      const first = overlay.querySelector(FOCUSABLE);
+      if (first) first.focus();
+
+      overlay._keyHandler = (e) => {
+        if (e.key === 'Escape') { closeModal(id); return; }
+        if (e.key !== 'Tab') return;
+        const f = [...overlay.querySelectorAll(FOCUSABLE)].filter(el => el.offsetParent !== null);
+        if (!f.length) return;
+        const a = f[0], z = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+        else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+      };
+      overlay._backdropHandler = (e) => { if (e.target === overlay) closeModal(id); };
+      overlay.addEventListener('keydown', overlay._keyHandler);
+      overlay.addEventListener('mousedown', overlay._backdropHandler);
+    }
+
+    function closeModal(id) {
+      const overlay = document.getElementById(id);
+      overlay.classList.remove('open');
+      if (overlay._keyHandler)      overlay.removeEventListener('keydown', overlay._keyHandler);
+      if (overlay._backdropHandler) overlay.removeEventListener('mousedown', overlay._backdropHandler);
+      if (lastFocusedEl && lastFocusedEl.focus) lastFocusedEl.focus();
+    }
+
     // ── EDITAR USUARIO ─────────────────────────────────────
     function openEditUser(id) {
       const p = allAgents.find(a => a.id === id);
@@ -755,13 +814,12 @@
       document.getElementById('euName').value  = p.name  || '';
       document.getElementById('euEmail').value = p.email || '';
       document.getElementById('euRole').value  = p.role  || 'agent';
-      document.getElementById('euPass').value  = '';
       document.getElementById('euError').textContent = '';
-      document.getElementById('modalEditUser').classList.add('open');
+      openModal('modalEditUser');
     }
 
     document.getElementById('closeEditUser').addEventListener('click', () => {
-      document.getElementById('modalEditUser').classList.remove('open');
+      closeModal('modalEditUser');
     });
 
     document.getElementById('editUserForm').addEventListener('submit', async (e) => {
@@ -784,7 +842,7 @@
         return;
       }
 
-      document.getElementById('modalEditUser').classList.remove('open');
+      closeModal('modalEditUser');
       btn.textContent = 'Guardar cambios'; btn.disabled = false;
       await loadAgents();
       await Promise.all([loadUsers()]);
@@ -804,10 +862,10 @@
 
     // ── CREAR USUARIO ──────────────────────────────────────
     document.getElementById('openCreateUser').addEventListener('click', () => {
-      document.getElementById('modalCreateUser').classList.add('open');
+      openModal('modalCreateUser');
     });
     document.getElementById('closeCreateUser').addEventListener('click', () => {
-      document.getElementById('modalCreateUser').classList.remove('open');
+      closeModal('modalCreateUser');
       document.getElementById('createUserForm').reset();
       document.getElementById('cuError').textContent = '';
     });
@@ -859,7 +917,7 @@
         }, { onConflict: 'id' });
       }
 
-      document.getElementById('modalCreateUser').classList.remove('open');
+      closeModal('modalCreateUser');
       document.getElementById('createUserForm').reset();
       btn.textContent = 'Crear usuario'; btn.disabled = false;
       await loadAgents();

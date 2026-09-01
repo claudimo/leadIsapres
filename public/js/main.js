@@ -23,15 +23,17 @@
 (function initMobileMenu() {
   const toggle = document.getElementById('navToggle');
   const links  = document.getElementById('navLinks');
-  toggle.addEventListener('click', () => {
-    const open = links.classList.toggle('open');
+
+  function setOpen(open) {
+    links.classList.toggle('open', open);
     toggle.classList.toggle('active', open);
-  });
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  }
+
+  toggle.addEventListener('click', () => setOpen(!links.classList.contains('open')));
   links.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      links.classList.remove('open');
-      toggle.classList.remove('active');
-    });
+    a.addEventListener('click', () => setOpen(false));
   });
 })();
 
@@ -63,10 +65,12 @@
       const isOpen = btn.classList.contains('active');
       document.querySelectorAll('.faq-question.active').forEach(b => {
         b.classList.remove('active');
+        b.setAttribute('aria-expanded', 'false');
         b.closest('.faq-item').querySelector('.faq-answer').classList.remove('open');
       });
       if (!isOpen) {
         btn.classList.add('active');
+        btn.setAttribute('aria-expanded', 'true');
         btn.closest('.faq-item').querySelector('.faq-answer').classList.add('open');
       }
     });
@@ -104,6 +108,8 @@ function showToast(message, isError = false) {
   if (!container) {
     container = document.createElement('div');
     container.className = 'toast-container';
+    container.setAttribute('role', 'status');
+    container.setAttribute('aria-live', 'polite');
     document.body.appendChild(container);
   }
   const toast = document.createElement('div');
@@ -128,35 +134,84 @@ function showToast(message, isError = false) {
   function setError(fieldId, msg) {
     const input = document.getElementById(fieldId);
     const errEl = document.getElementById(`error-${fieldId}`);
-    if (input) input.classList.toggle('error', !!msg);
+    if (input) {
+      input.classList.toggle('error', !!msg);
+      input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    }
     if (errEl) errEl.textContent = msg || '';
   }
 
   function clearErrors() {
     document.querySelectorAll('.error-msg').forEach(e => { e.textContent = ''; });
     document.querySelectorAll('.error').forEach(e => e.classList.remove('error'));
+    const summary = document.getElementById('formErrorSummary');
+    if (summary) { summary.hidden = true; summary.querySelector('ul').innerHTML = ''; }
   }
 
-  function validate(d) {
+  // Etiquetas legibles para el resumen de errores
+  const FIELD_LABELS = {
+    nombre: 'Nombre completo', email: 'Correo electrónico', telefono: 'Teléfono',
+    edad: 'Edad', isapre: 'Isapre actual', sueldo: 'Rango de sueldo',
+    cargas: 'Cargas familiares', region: 'Región',
+  };
+
+  // Validadores por campo (se usan en blur y en submit)
+  const VALIDATORS = {
+    nombre:   v => (!v || v.trim().length < 2) ? 'Ingresa tu nombre completo' : '',
+    email:    v => (!v || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) ? 'Correo electrónico inválido' : '',
+    telefono: v => (!v || !isValidClPhone(v)) ? 'Ingresa un teléfono chileno válido, ej: +56 9 1234 5678' : '',
+    edad:     v => { const n = parseInt(v, 10); return (!v || isNaN(n) || n < 18 || n > 100) ? 'La edad debe estar entre 18 y 100' : ''; },
+    isapre:   v => !v ? 'Selecciona tu isapre actual' : '',
+    sueldo:   v => !v ? 'Selecciona un rango de sueldo' : '',
+    cargas:   v => (!v && v !== '0') ? 'Indica cuántas cargas tienes' : '',
+    region:   v => !v ? 'Selecciona tu región' : '',
+  };
+
+  // Acepta números chilenos con o sin +56, con espacios/guiones/paréntesis:
+  // móviles (9XXXXXXXX) y fijos (área 2-9 + 7-8 dígitos)
+  function isValidClPhone(raw) {
+    const cleaned = raw.replace(/[\s\-().]/g, '');
+    return /^(\+?56)?[2-9]\d{7,8}$/.test(cleaned);
+  }
+
+  function validate() {
     let ok = true;
-    if (!d.nombre || d.nombre.trim().length < 2)
-      { setError('nombre',   'Ingresa tu nombre completo'); ok = false; }
-    if (!d.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email))
-      { setError('email',    'Correo electrónico inválido'); ok = false; }
-    if (!d.telefono || d.telefono.trim().length < 7)
-      { setError('telefono', 'Teléfono inválido'); ok = false; }
-    if (!d.edad || isNaN(d.edad) || d.edad < 18 || d.edad > 100)
-      { setError('edad',     'Edad debe ser entre 18 y 100'); ok = false; }
-    if (!d.isapre)
-      { setError('isapre',   'Selecciona tu isapre actual'); ok = false; }
-    if (!d.sueldo)
-      { setError('sueldo',   'Selecciona un rango de sueldo'); ok = false; }
-    if (!d.cargas && d.cargas !== '0')
-      { setError('cargas',   'Indica cuántas cargas tienes'); ok = false; }
-    if (!d.region)
-      { setError('region',   'Selecciona tu región'); ok = false; }
+    Object.keys(VALIDATORS).forEach(id => {
+      const el  = form[id];
+      const msg = VALIDATORS[id](el ? el.value.trim() : '');
+      setError(id, msg);
+      if (msg) ok = false;
+    });
     return ok;
   }
+
+  // Construye/actualiza el resumen de errores enfocable arriba del formulario
+  function updateErrorSummary(moveFocus) {
+    const summary = document.getElementById('formErrorSummary');
+    const list    = document.getElementById('formErrorSummaryList');
+    if (!summary || !list) return;
+    const items = Object.keys(VALIDATORS)
+      .map(id => ({ id, msg: (document.getElementById(`error-${id}`) || {}).textContent }))
+      .filter(x => x.msg);
+    if (!items.length) {
+      summary.hidden = true;
+      list.innerHTML = '';
+      return;
+    }
+    list.innerHTML = items.map(x =>
+      `<li><a href="#${x.id}">${FIELD_LABELS[x.id] || x.id}: ${x.msg}</a></li>`).join('');
+    summary.hidden = false;
+    if (moveFocus) summary.focus();
+  }
+
+  // Al pulsar un enlace del resumen, enfoca el campo correspondiente
+  document.getElementById('formErrorSummaryList')?.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a) return;
+    e.preventDefault();
+    const el = document.getElementById(a.getAttribute('href').slice(1));
+    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.focus({ preventScroll: true }); }
+  });
 
   function setLoading(loading) {
     submitBtn.disabled = loading;
@@ -219,8 +274,8 @@ function showToast(message, isError = false) {
       mensaje:  form.mensaje.value.trim(),
     };
 
-    if (!validate(d)) {
-      form.querySelector('.error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (!validate()) {
+      updateErrorSummary(true);
       return;
     }
 
@@ -240,6 +295,7 @@ function showToast(message, isError = false) {
     // Mostrar pantalla de éxito
     form.style.display = 'none';
     successEl.style.display = 'block';
+    document.getElementById('formSuccessTitle')?.focus();
     showToast('¡Cotización enviada correctamente!');
 
     // Actualizar enlace WhatsApp del éxito con los datos del formulario
@@ -251,12 +307,19 @@ function showToast(message, isError = false) {
     }
   });
 
-  // Limpiar error al escribir
+  // Validación al salir del campo (blur) + limpieza al escribir
   form.querySelectorAll('input, select, textarea').forEach(el => {
+    el.addEventListener('blur', () => {
+      if (!VALIDATORS[el.id]) return;
+      setError(el.id, VALIDATORS[el.id](el.value.trim()));
+      updateErrorSummary();
+    });
     el.addEventListener('input', () => {
       el.classList.remove('error');
+      el.setAttribute('aria-invalid', 'false');
       const errEl = document.getElementById(`error-${el.id}`);
       if (errEl) errEl.textContent = '';
+      updateErrorSummary();
     });
   });
 })();

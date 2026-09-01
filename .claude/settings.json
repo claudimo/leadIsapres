@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(supabase --version)",
-      "Bash(npx supabase *)"
+      "Bash(npx supabase *)",
+      "Bash(git rm *)",
+      "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"Name='\\\\''node.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*server.js*'\\\\'' } | Select-Object ProcessId,CreationDate')",
+      "Bash(node -e \"require.resolve\\('playwright'\\)\")",
+      "Bash(npx --yes playwright --version)",
+      "Bash(sed -i 's/await page.waitForTimeout\\(300\\);/await page.waitForTimeout\\(500\\);/; s/await page.waitForTimeout\\(500\\);\\\\n  const phoneErrorGood/XXX/' verify.js)",
+      "Bash(node -e ' *)"
     ]
   }
 }
